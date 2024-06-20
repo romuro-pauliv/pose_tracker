@@ -12,3 +12,21 @@ genlog.active_color()
 
 # | Imports |----------------------------------------------------------------------------------------------------------|
 # |--------------------------------------------------------------------------------------------------------------------|
+
+import cv2
+from resources.read_video import ReadVideo
+
+cap = ReadVideo("teste")
+
+while cap.isOpened():
+    ret, frame = cap.read()
+    if not ret:
+        break
+    
+    cv2.imshow("teste", frame)
+    if cv2.waitKey(1) == ord("q"):
+        break
+
+cap.release()
+cv2.destroyAllWindows()
+    

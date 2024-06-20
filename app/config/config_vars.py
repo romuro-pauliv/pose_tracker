@@ -15,6 +15,7 @@ class ConfigPath(object):
     ROOT            : PosixPath = Path(configfiles.dot_ini['paths']['posixpath']['root'])
     EXTERNAL_DATA   : PosixPath = Path(configfiles.dot_ini['paths']['posixpath']['ext_data'])
     BIN_DATA        : PosixPath = Path(configfiles.dot_ini['paths']['posixpath']['ser_data'])
+    VIDEOS_FILES    : PosixPath = Path(configfiles.dot_ini['paths']['posixpath']['videos_files'])
 
 class FileExtensions(object):
     VIDEO: str = str(configfiles.dot_ini['extensions']['ext']['video'])
