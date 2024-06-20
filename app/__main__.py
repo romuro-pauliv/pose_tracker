@@ -20,14 +20,14 @@ from infos.cv2_video_info           import FPS
 
 
 from mediapipe.tasks.python.vision.pose_landmarker  import PoseLandmarker, PoseLandmarkerResult
-from models.landmarker_options                      import LANDMAKER_OPTIONS
+from models.landmarker_options                      import LANDMAKER_OPTIONS_VIDEO
 import mediapipe as mp
 # |--------------------------------------------------------------------------------------------------------------------|
 
 cap: cv2.VideoCapture = ReadVideo("teste")
 fps: FPS = FPS()
 
-with PoseLandmarker.create_from_options(LANDMAKER_OPTIONS) as landmarker:
+with PoseLandmarker.create_from_options(LANDMAKER_OPTIONS_VIDEO) as landmarker:
     while cap.isOpened():
         # | Read frames |-------------------------------------------------------|
         ret, frame = cap.read()

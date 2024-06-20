@@ -16,7 +16,13 @@ class ConfigPath(object):
     EXTERNAL_DATA   : PosixPath = Path(configfiles.dot_ini['paths']['posixpath']['ext_data'])
     BIN_DATA        : PosixPath = Path(configfiles.dot_ini['paths']['posixpath']['ser_data'])
     VIDEOS_FILES    : PosixPath = Path(configfiles.dot_ini['paths']['posixpath']['videos_files'])
+    MP_MODELS       : PosixPath = Path(configfiles.dot_ini['paths']['posixpath']['models'])
 
 class FileExtensions(object):
-    VIDEO: str = str(configfiles.dot_ini['extensions']['ext']['video'])
-    BIN  : str = str(configfiles.dot_ini['extensions']['ext']['bin'])
+    VIDEO       : str = str(configfiles.dot_ini['extensions']['ext']['video'])
+    BIN         : str = str(configfiles.dot_ini['extensions']['ext']['bin'])
+    MP_MODELS   : str = str(configfiles.dot_ini['extensions']['ext']['mp_models'])
+    
+class ConfigPoseLandmakerModel(object):
+    MODEL_NAME  : str = str(configfiles.dot_ini['pose_landmarker']['base_options']['model_name'])
+    DELEGATE    : str = str(configfiles.dot_ini['pose_landmarker']['base_options']['delegate'])
