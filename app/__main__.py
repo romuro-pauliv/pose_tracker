@@ -16,6 +16,7 @@ import numpy        as np
 
 from resources.read_video           import ReadVideo
 from treatment.frame_modifications  import rescale_frame, array2mediapipe_image
+from treatment.landmarker_result    import frame_landmarker_coordinate
 from infos.cv2_video_info           import FPS
 
 
@@ -46,10 +47,16 @@ with PoseLandmarker.create_from_options(LANDMAKER_OPTIONS_VIDEO) as landmarker:
             image       = mp_frame,
             timestamp_ms= mp.Timestamp.from_seconds(timestamp).microseconds()
         )
+        
+        new_frame: np.ndarray = np.zeros((frame.shape))
+        
+        if len(POSE_RESULT.pose_landmarks) > 0:
+           for i in range(len(POSE_RESULT.pose_landmarks[0])):
+               x, y = frame_landmarker_coordinate(frame, POSE_RESULT, 0, i)
+               cv2.circle(new_frame, (x, y), 2, (0, 255, 0), 1)
         # |---------------------------------------------------------------------|
         
         
-         
         # | FPS |---------------------------------------------------------------|
         fps.get_fps()
         fps.putFPS(frame, "mean")
@@ -58,6 +65,7 @@ with PoseLandmarker.create_from_options(LANDMAKER_OPTIONS_VIDEO) as landmarker:
     
         # | Show the frames |---------------------------------------------------|
         cv2.imshow("real video", frame)
+        cv2.imshow("tracker", new_frame)
         if cv2.waitKey(1) == ord("q"):
             break
         # |---------------------------------------------------------------------|
