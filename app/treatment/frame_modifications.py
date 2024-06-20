@@ -6,7 +6,8 @@
 
 # | Imports |----------------------------------------------------------------------------------------------------------|
 import cv2
-import numpy as np
+import numpy        as np
+import mediapipe    as mp
 # |--------------------------------------------------------------------------------------------------------------------|
 
 def rescale_frame(frame: np.ndarray, resize: int = 0.5) -> np.ndarray:
@@ -21,3 +22,7 @@ def rescale_frame(frame: np.ndarray, resize: int = 0.5) -> np.ndarray:
     width   : int   = int(frame.shape[1] * resize)
     height  : int   = int(frame.shape[0] * resize)
     return cv2.resize(frame, (width, height), interpolation=cv2.INTER_LINEAR)
+
+
+def array2mediapipe_image(frame: np.ndarray) -> mp.Image:
+    return mp.Image(image_format=mp.ImageFormat.SRGB, data=frame)
