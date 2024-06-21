@@ -18,6 +18,7 @@ from resources.read_video           import ReadVideo
 from treatment.frame_modifications  import rescale_frame, array2mediapipe_image
 from treatment.landmarker_result    import frame_landmarker_coordinate
 from infos.cv2_video_info           import FPS
+from infos.cv2_pose                 import PrintPose
 
 
 from mediapipe.tasks.python.vision.pose_landmarker  import PoseLandmarker, PoseLandmarkerResult
@@ -25,7 +26,8 @@ from models.landmarker_options                      import LANDMAKER_OPTIONS_VID
 import mediapipe as mp
 # |--------------------------------------------------------------------------------------------------------------------|
 
-cap: cv2.VideoCapture = ReadVideo("teste")
+cap: cv2.VideoCapture = ReadVideo("ballet")
+#cap: cv2.VideoCapture = cv2.VideoCapture(0)
 fps: FPS = FPS()
 
 with PoseLandmarker.create_from_options(LANDMAKER_OPTIONS_VIDEO) as landmarker:
@@ -37,7 +39,7 @@ with PoseLandmarker.create_from_options(LANDMAKER_OPTIONS_VIDEO) as landmarker:
         # |---------------------------------------------------------------------|
     
         # | frame treatment |---------------------------------------------------|
-        frame   : np.ndarray    = rescale_frame(frame, 0.3)
+        frame   : np.ndarray    = rescale_frame(frame, 1)
         mp_frame: mp.Image      = array2mediapipe_image(frame)
         # |---------------------------------------------------------------------|
 
@@ -48,12 +50,10 @@ with PoseLandmarker.create_from_options(LANDMAKER_OPTIONS_VIDEO) as landmarker:
             timestamp_ms= mp.Timestamp.from_seconds(timestamp).microseconds()
         )
         
-        new_frame: np.ndarray = np.zeros((frame.shape))
-        
+        tracker_frame: np.ndarray = np.zeros(frame.shape)
         if len(POSE_RESULT.pose_landmarks) > 0:
-           for i in range(len(POSE_RESULT.pose_landmarks[0])):
-               x, y = frame_landmarker_coordinate(frame, POSE_RESULT, 0, i)
-               cv2.circle(new_frame, (x, y), 2, (0, 255, 0), 1)
+            for i in range(len(POSE_RESULT.pose_landmarks)):
+                PrintPose(POSE_RESULT, tracker_frame, i).run()
         # |---------------------------------------------------------------------|
         
         
@@ -65,7 +65,7 @@ with PoseLandmarker.create_from_options(LANDMAKER_OPTIONS_VIDEO) as landmarker:
     
         # | Show the frames |---------------------------------------------------|
         cv2.imshow("real video", frame)
-        cv2.imshow("tracker", new_frame)
+        cv2.imshow("tracker video", tracker_frame)
         if cv2.waitKey(1) == ord("q"):
             break
         # |---------------------------------------------------------------------|
