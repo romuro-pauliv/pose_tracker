@@ -26,7 +26,7 @@ from models.landmarker_options                      import LANDMAKER_OPTIONS_VID
 import mediapipe as mp
 # |--------------------------------------------------------------------------------------------------------------------|
 
-cap: cv2.VideoCapture = ReadVideo("ballet")
+cap: cv2.VideoCapture = ReadVideo("teste")
 #cap: cv2.VideoCapture = cv2.VideoCapture(0)
 fps: FPS = FPS()
 
